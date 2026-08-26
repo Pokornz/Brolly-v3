@@ -1,7 +1,7 @@
 {
   "name": "brolly",
   "author": "jRay",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "keywords": [
     "pebble-app"
   ],
@@ -9,7 +9,7 @@
   "dependencies": {},
   "pebble": {
     "displayName": "Brolly - Analogue Weather",
-    "uuid": "53a30793-7406-44e0-b02e-35fad4314fc5",
+    "uuid": "49d907f2-103d-4f29-af3a-db2fd0b23705",
     "sdkVersion": "3",
     "enableMultiJS": true,
     "targetPlatforms": [
