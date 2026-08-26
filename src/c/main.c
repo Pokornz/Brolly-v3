@@ -523,9 +523,9 @@ static uint32_t get_font_resource_id(uint8_t font_id, uint8_t size_idx) {
 #ifdef PBL_BW
   return 0; // Use system fonts on black-and-white targets
 #else
-  // Roman Sans uses Noto Sans Light at Size 1. It remains visibly thin while
-  // retaining enough pixel coverage for the Roman I on small colour displays.
-  if (font_id == 5 && size_idx == 0) return RESOURCE_ID_FONT_ROMAN_SANS_18;
+  // Roman Sans Size 1 uses Roboto's modern sans glyph. Its unbarred I remains
+  // visible on small displays without introducing serif-like horizontal terminals.
+  if (font_id == 5 && size_idx == 0) return RESOURCE_ID_FONT_STANDARD_18;
   uint8_t resource_font_id = (font_id == 5) ? 3 : (font_id == 6) ? 2 : font_id;
   static const uint32_t font_resources[5][5] = {
     // Digital
@@ -558,7 +558,7 @@ static uint32_t get_sbs_font_resource_id(uint8_t font_id, uint8_t size_idx) {
 #ifdef PBL_BW
   return 0;
 #else
-  if (font_id == 5 && size_idx == 0) return RESOURCE_ID_FONT_SBS_ROMAN_SANS_14;
+  if (font_id == 5 && size_idx == 0) return RESOURCE_ID_FONT_SBS_STANDARD_14;
   uint8_t resource_font_id = (font_id == 5) ? 3 : (font_id == 6) ? 2 : font_id;
   static const uint32_t sbs_font_resources[5][5] = {
     { RESOURCE_ID_FONT_SBS_DIGITAL_14,  RESOURCE_ID_FONT_SBS_DIGITAL_16,

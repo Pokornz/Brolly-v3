@@ -742,32 +742,6 @@
                         "gabbro"
                     ],
                     "type": "font"
-                },
-                {
-                    "type": "font",
-                    "name": "FONT_ROMAN_SANS_18",
-                    "file": "fonts/NotoSans-Light.ttf",
-                    "compatibility": "2.7",
-                    "characterRegex": "[IVX]",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ]
-                },
-                {
-                    "type": "font",
-                    "name": "FONT_SBS_ROMAN_SANS_14",
-                    "file": "fonts/NotoSans-Light.ttf",
-                    "compatibility": "2.7",
-                    "characterRegex": "[IVX]",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ]
                 }
             ]
         },
