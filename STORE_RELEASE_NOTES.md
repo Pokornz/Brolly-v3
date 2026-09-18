@@ -1,5 +1,7 @@
-THIS WATCH IS ROUND ROUND PEBBLE RIGHT ROUND
-LIKE A NORMAL WATCH ITS ROUND ROUND WATCH ROUND
-Yeah I planned ahead for the first time in my life and made this baby Round 2 ready and back compatible with Time Round.
-Added Roman numeral font options for my ancient Italian posse WUDDUUUPP!
-Other various fixy fixes.
+I can't even remember what I've changed.
+Generally overhauled code?
+Better date/temp positioning?
+New Roman numeral fonts?
+Settings page cleaned up?
+Better battery?
+This isn't a joke I can't even remember I've changed but let's just assume I've done good work and give me a big round of applause. Thankyou, thankyou, you're too kind.

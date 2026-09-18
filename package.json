@@ -30,6 +30,7 @@
             "KEY_DISPLAY_MODE": 158,
             "KEY_HOUR_HAND_INNER": 115,
             "KEY_HOUR_HAND_OUTER": 114,
+            "KEY_NUMBERS_VISIBILITY": 154,
             "KEY_HOUR_MARKER_COLOR": 129,
             "KEY_ICON_0": 0,
             "KEY_ICON_1": 1,
@@ -58,6 +59,7 @@
             "KEY_ICON_COLOR": 128,
             "KEY_ICON_COLOR_MODE": 153,
             "KEY_ICON_SIZE": 151,
+            "KEY_ICON_SIZE_SAME_AS_FONT": 152,
             "KEY_MIDDLE_RING_20_COLOR": 133,
             "KEY_MINUTE_MARKER_COLOR": 130,
             "KEY_MIN_HAND_INNER": 117,
@@ -94,654 +96,1070 @@
         "resources": {
             "media": [
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_DIGITAL_12",
                     "file": "fonts/DSEG7Classic-Regular.ttf",
-                    "name": "FONT_DIGITAL_18",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_DIGITAL_14",
                     "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_DIGITAL_19",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
                     "name": "FONT_DIGITAL_22",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "type": "font",
                     "name": "FONT_DIGITAL_26",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
                     "file": "fonts/DSEG7Classic-Regular.ttf",
-                    "name": "FONT_DIGITAL_30",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/DSEG7Classic-Regular.ttf",
-                    "name": "FONT_DIGITAL_36",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/DSEG7Classic-Regular.ttf",
-                    "name": "FONT_SBS_DIGITAL_14",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/DSEG7Classic-Regular.ttf",
-                    "name": "FONT_SBS_DIGITAL_16",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/DSEG7Classic-Regular.ttf",
-                    "name": "FONT_SBS_DIGITAL_18",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/DSEG7Classic-Regular.ttf",
-                    "name": "FONT_SBS_DIGITAL_20",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/DSEG7Classic-Regular.ttf",
-                    "name": "FONT_SBS_DIGITAL_23",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
+                    "type": "font",
                     "name": "FONT_STANDARD_18",
+                    "file": "fonts/Roboto-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
+                    "type": "font",
                     "name": "FONT_STANDARD_22",
+                    "file": "fonts/Roboto-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
+                    "type": "font",
                     "name": "FONT_STANDARD_26",
+                    "file": "fonts/Roboto-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
+                    "type": "font",
                     "name": "FONT_STANDARD_30",
+                    "file": "fonts/Roboto-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
+                    "type": "font",
                     "name": "FONT_STANDARD_36",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
                     "file": "fonts/Roboto-Regular.ttf",
-                    "name": "FONT_SBS_STANDARD_14",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
-                    "name": "FONT_SBS_STANDARD_16",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
-                    "name": "FONT_SBS_STANDARD_18",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
-                    "name": "FONT_SBS_STANDARD_20",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Roboto-Regular.ttf",
-                    "name": "FONT_SBS_STANDARD_23",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_TRADITIONAL_17",
                     "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_TRADITIONAL_18",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_TRADITIONAL_23",
                     "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_TRADITIONAL_22",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Lora-Regular.ttf",
+                    "type": "font",
                     "name": "FONT_TRADITIONAL_26",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
                     "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_TRADITIONAL_30",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_TRADITIONAL_28",
                     "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_TRADITIONAL_36",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_TRADITIONAL_34",
                     "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_SBS_TRADITIONAL_18",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_SBS_TRADITIONAL_20",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_SBS_TRADITIONAL_23",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_SBS_TRADITIONAL_14",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Lora-Regular.ttf",
-                    "name": "FONT_SBS_TRADITIONAL_16",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "type": "font",
                     "name": "FONT_THIN_18",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "type": "font",
                     "name": "FONT_THIN_22",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "type": "font",
                     "name": "FONT_THIN_26",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_THIN_31",
                     "file": "fonts/NunitoSans-ExtraLight.ttf",
-                    "name": "FONT_THIN_30",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "type": "font",
                     "name": "FONT_THIN_36",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
                     "file": "fonts/NunitoSans-ExtraLight.ttf",
-                    "name": "FONT_SBS_THIN_14",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/NunitoSans-ExtraLight.ttf",
-                    "name": "FONT_SBS_THIN_16",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/NunitoSans-ExtraLight.ttf",
-                    "name": "FONT_SBS_THIN_18",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/NunitoSans-ExtraLight.ttf",
-                    "name": "FONT_SBS_THIN_20",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 IVX :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/NunitoSans-ExtraLight.ttf",
-                    "name": "FONT_SBS_THIN_23",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_OVERSIZE_15",
                     "file": "fonts/Oswald-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
                     "name": "FONT_OVERSIZE_18",
+                    "file": "fonts/Oswald-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_OVERSIZE_23",
                     "file": "fonts/Oswald-Regular.ttf",
-                    "name": "FONT_OVERSIZE_22",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_OVERSIZE_27",
                     "file": "fonts/Oswald-Regular.ttf",
-                    "name": "FONT_OVERSIZE_26",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
+                    "type": "font",
+                    "name": "FONT_OVERSIZE_32",
                     "file": "fonts/Oswald-Regular.ttf",
-                    "name": "FONT_OVERSIZE_30",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Oswald-Regular.ttf",
-                    "name": "FONT_OVERSIZE_36",
+                    "type": "font",
+                    "name": "FONT_SBS_DIGITAL_10",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Oswald-Regular.ttf",
-                    "name": "FONT_SBS_OVERSIZE_14",
+                    "type": "font",
+                    "name": "FONT_SBS_DIGITAL_11",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
+                    "type": "font",
+                    "name": "FONT_SBS_DIGITAL_12",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
                     "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_DIGITAL_16",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_14",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_16",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_18",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_19",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_23",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_TRADITIONAL_13",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_TRADITIONAL_17",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_TRADITIONAL_19",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_TRADITIONAL_23",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_THIN_13",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_THIN_15",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_THIN_18",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_THIN_20",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_THIN_24",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_OVERSIZE_11",
                     "file": "fonts/Oswald-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_OVERSIZE_15",
+                    "file": "fonts/Oswald-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
                     "name": "FONT_SBS_OVERSIZE_16",
+                    "file": "fonts/Oswald-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Oswald-Regular.ttf",
-                    "name": "FONT_SBS_OVERSIZE_18",
-                    "targetPlatforms": [
-                        "basalt",
-                        "emery",
-                        "chalk",
-                        "gabbro"
-                    ],
-                    "type": "font"
-                },
-                {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Oswald-Regular.ttf",
+                    "type": "font",
                     "name": "FONT_SBS_OVERSIZE_20",
+                    "file": "fonts/Oswald-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
                 },
                 {
-                    "characterRegex": "[0-9 :\u00b0]",
-                    "compatibility": "2.7",
-                    "file": "fonts/Oswald-Regular.ttf",
-                    "name": "FONT_SBS_OVERSIZE_23",
+                    "type": "font",
+                    "name": "FONT_DIGITAL_18",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
                     "targetPlatforms": [
                         "basalt",
                         "emery",
                         "chalk",
                         "gabbro"
                     ],
-                    "type": "font"
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_DIGITAL_30",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_DIGITAL_36",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_DIGITAL_42",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_STANDARD_14",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_STANDARD_42",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_TRADITIONAL_40",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_TRADITIONAL_46",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_THIN_42",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_THIN_48",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_OVERSIZE_11",
+                    "file": "fonts/Oswald-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_OVERSIZE_13",
+                    "file": "fonts/Oswald-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_DIGITAL_14",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_DIGITAL_18",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_DIGITAL_20",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_DIGITAL_22",
+                    "file": "fonts/DSEG7Classic-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_10",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_26",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_30",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_TRADITIONAL_26",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_TRADITIONAL_30",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_THIN_28",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_THIN_32",
+                    "file": "fonts/NunitoSans-ExtraLight.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_OVERSIZE_13",
+                    "file": "fonts/Oswald-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_STANDARD_8",
+                    "file": "fonts/Roboto-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_ROMAN_SERIF_17",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_ROMAN_SERIF_23",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_ROMAN_SERIF_26",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_ROMAN_SERIF_30",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_ROMAN_SERIF_36",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_ROMAN_SERIF_13",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_ROMAN_SERIF_15",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_ROMAN_SERIF_17",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_ROMAN_SERIF_19",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_SBS_ROMAN_SERIF_23",
+                    "file": "fonts/Lora-Regular.ttf",
+                    "targetPlatforms": [
+                        "basalt",
+                        "emery",
+                        "chalk",
+                        "gabbro"
+                    ],
+                    "compatibility": "2.7",
+                    "characterRegex": "[0-9IVX]"
                 }
             ]
         },
@@ -760,5 +1178,5 @@
             "watchface": true
         }
     },
-    "version": "3.2.0"
+    "version": "3.3.0"
 }

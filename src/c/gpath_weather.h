@@ -543,6 +543,76 @@ static inline GPathIconID icon_code_to_gpath(int icon_code) {
   }
 }
 
+// Calculate the scaled visible bounds of an icon's outline paths. Unlike the
+// nominal sz×sz canvas, the actual ink can be shorter or offset inside that
+// canvas, so these bounds are used when an icon must match text ink height.
+static bool weather_icon_visible_bounds(GPathIconID icon_id, int sz,
+                                        int *min_x, int *min_y,
+                                        int *max_x, int *max_y) {
+  if (icon_id >= GPATH_ID_COUNT) return false;
+  const WeatherIconDef *def = &s_weather_icons[icon_id];
+  int native_max = def->native_w > def->native_h ? def->native_w : def->native_h;
+  if (native_max == 0) return false;
+  int scale256 = (sz * 256) / native_max;
+  int lo_x = 32767, lo_y = 32767, hi_x = -32768, hi_y = -32768;
+  for (int p = 0; p < def->num_paths; p++) {
+    const GPathInfo *pi = &def->paths[p];
+    for (int i = 0; i < (int)pi->num_points; i++) {
+      int x = (pi->points[i].x * scale256) / 256;
+      int y = (pi->points[i].y * scale256) / 256;
+      if (x < lo_x) lo_x = x;
+      if (x > hi_x) hi_x = x;
+      if (y < lo_y) lo_y = y;
+      if (y > hi_y) hi_y = y;
+    }
+  }
+  if (hi_x < lo_x || hi_y < lo_y) return false;
+  *min_x = lo_x; *min_y = lo_y;
+  *max_x = hi_x; *max_y = hi_y;
+  return true;
+}
+
+// Find the discrete Pebble GPath scale whose actual visible height is closest
+// to target_ink_height. The integer search accounts for fixed-point rounding.
+static int weather_icon_size_for_ink_height(GPathIconID icon_id,
+                                            int target_ink_height) {
+  if (target_ink_height < 1) return 1;
+  int best_size = target_ink_height;
+  int best_delta = 32767;
+  int search_limit = target_ink_height * 2 + 32;
+  for (int sz = 1; sz <= search_limit; sz++) {
+    int min_x, min_y, max_x, max_y;
+    if (!weather_icon_visible_bounds(icon_id, sz, &min_x, &min_y, &max_x, &max_y)) {
+      break;
+    }
+    int ink_height = max_y - min_y + 1;
+    int delta = ink_height - target_ink_height;
+    if (delta < 0) delta = -delta;
+    if (delta < best_delta || (delta == best_delta && sz < best_size)) {
+      best_delta = delta;
+      best_size = sz;
+      if (delta == 0) break;
+    }
+  }
+  return best_size;
+}
+
+// Convert an existing nominal top-left square into the top-left anchor whose
+// visible icon ink is centred inside that square at the requested ink height.
+static void weather_icon_match_ink_height(GPathIconID icon_id,
+                                          int target_ink_height,
+                                          int *ox, int *oy, int *draw_size) {
+  int size = weather_icon_size_for_ink_height(icon_id, target_ink_height);
+  int min_x, min_y, max_x, max_y;
+  if (weather_icon_visible_bounds(icon_id, size, &min_x, &min_y, &max_x, &max_y)) {
+    int ink_width = max_x - min_x + 1;
+    int ink_height = max_y - min_y + 1;
+    *ox += (target_ink_height - ink_width) / 2 - min_x;
+    *oy += (target_ink_height - ink_height) / 2 - min_y;
+  }
+  *draw_size = size;
+}
+
 // Draw a weather icon at (ox, oy) scaled to sz×sz.
 // color      — base colour used when use_weather_colors is false.
 // use_weather_colors — when true, each path is drawn in its approved weather

@@ -106,12 +106,15 @@ var KEY = {
   // Appearance
   NUMBER_SIZE:    150,
   ICON_SIZE:      151,
+  ICON_SIZE_SAME_AS_FONT: 152,
+  NUMBERS_VISIBILITY: 154,
   ICON_COLOR_MODE:153,
   DISPLAY_MODE:   158,
   // City name display
   CITY_NAME:         159,
   CITY_DISPLAY_MODE: 160,
   CITY_COLOR:        161,
+  COMPLICATION_LAYER:162,
   // Settings snapshot synchronisation
   REQUEST_SETTINGS:  163,
   SETTINGS_SNAPSHOT: 164,
@@ -184,8 +187,11 @@ var SNAPSHOT_FIELD_MAP = {
   141: 'KEY_SECONDS_HAND_COLOR', 142: 'KEY_SECONDS_HAND_MODE',
   143: 'KEY_SECONDS_SHAKE_DUR', 147: 'KEY_SUNRISE_MARKER_VISIBLE',
   148: 'KEY_SUNRISE_MARKER_COLOR', 149: 'KEY_SUNSET_MARKER_COLOR',
-  150: 'KEY_NUMBER_SIZE', 151: 'KEY_ICON_SIZE', 153: 'KEY_ICON_COLOR_MODE',
+  150: 'KEY_NUMBER_SIZE', 151: 'KEY_ICON_SIZE',
+  152: 'KEY_ICON_SIZE_SAME_AS_FONT', 153: 'KEY_ICON_COLOR_MODE',
+  154: 'KEY_NUMBERS_VISIBILITY',
   158: 'KEY_DISPLAY_MODE', 160: 'KEY_CITY_DISPLAY_MODE', 161: 'KEY_CITY_COLOR',
+  162: 'KEY_COMPLICATION_LAYER'
 };
 
 
@@ -223,10 +229,13 @@ var SETTINGS_KEY_MAP = {
   KEY_SUNSET_MARKER_COLOR:         KEY.SUNSET_MARKER_COLOR,
   KEY_NUMBER_SIZE:                 KEY.NUMBER_SIZE,
   KEY_ICON_SIZE:                   KEY.ICON_SIZE,
+  KEY_ICON_SIZE_SAME_AS_FONT:      KEY.ICON_SIZE_SAME_AS_FONT,
+  KEY_NUMBERS_VISIBILITY:       KEY.NUMBERS_VISIBILITY,
   KEY_ICON_COLOR_MODE:             KEY.ICON_COLOR_MODE,
   KEY_DISPLAY_MODE:                KEY.DISPLAY_MODE,
   KEY_CITY_DISPLAY_MODE:           KEY.CITY_DISPLAY_MODE,
   KEY_CITY_COLOR:                  KEY.CITY_COLOR,
+  KEY_COMPLICATION_LAYER:          KEY.COMPLICATION_LAYER,
   KEY_DISPLAY_HOUR_MARKERS:        KEY.DISPLAY_HOUR_MARKERS,
   KEY_DISPLAY_MINOR_MARKERS:       KEY.DISPLAY_MINOR_MARKERS
 };
@@ -294,7 +303,7 @@ function decodeWatchSettingsSnapshot(payload) {
 
 function openConfigurationPage(settings) {
   var snapshot = settings || loadFullSettings();
-  var configUrl = 'https://themott27.github.io/Brolly-v3-Settings/?v=' + Date.now() +
+  var configUrl = 'https://themott27.github.io/Brolly-v3-Settings/v3.3.0/' +
                   '#settings=' + encodeURIComponent(JSON.stringify(snapshot));
   Pebble.openURL(configUrl);
 }
@@ -303,6 +312,9 @@ function openConfigurationPage(settings) {
 // coordinate/city caches whenever the user selects a different place.
 function setCustomLocation(location) {
   var normalized = String(location || '').trim();
+  // Snapshot restores can repeat the same location during an active companion
+  // session. Keep its resolved coordinates instead of forcing another geocode.
+  if (normalized === s_customLocation) return;
   s_customLocation = normalized;
   s_resolvedCityName = '';
   s_useLatLon = false;
@@ -378,7 +390,10 @@ function geocodeCity(cityName, callback) {
         var data = JSON.parse(xhr.responseText);
         if (data.results && data.results.length > 0) {
           var r = data.results[0];
-          s_resolvedCityName = r.name || cityName;
+          var resolvedParts = [r.name || cityName, r.country || ''];
+          s_resolvedCityName = resolvedParts.filter(function(part) {
+            return part && part.length > 0;
+          }).join(', ');
           callback(null, r.latitude, r.longitude);
         } else {
           callback('No results for: ' + cityName);
@@ -407,7 +422,10 @@ function reverseGeocode(lat, lon, callback) {
         var data = JSON.parse(xhr.responseText);
         var addr = data.address || {};
         var city = addr.city || addr.town || addr.village || addr.hamlet || addr.county || '';
-        callback(null, city);
+        var locationParts = [city, addr.country || ''];
+        callback(null, locationParts.filter(function(part) {
+          return part && part.length > 0;
+        }).join(', '));
       } catch (e) {
         callback(null, '');
       }
@@ -445,15 +463,18 @@ function ipGeolocate(callback) {
 // Fetch weather from Open-Meteo and send to watch
 // ─────────────────────────────────────────────────────────────────────────────
 function fetchWeather(lat, lon, complete) {
-  var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'auto';
+  // A rolling horizon begins at the current forecast hour, so each dial slot
+  // can represent the next occurrence of that clock position rather than a
+  // time earlier today. `timezone=auto` follows the selected weather location.
   var url = 'https://api.open-meteo.com/v1/forecast' +
     '?latitude=' + lat +
     '&longitude=' + lon +
     '&hourly=weather_code,is_day' +
     '&current=temperature_2m' +
     '&daily=sunrise,sunset' +
+    '&forecast_hours=36' +
     '&forecast_days=2' +
-    '&timezone=' + encodeURIComponent(tz);
+    '&timezone=auto';
 
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
@@ -477,64 +498,76 @@ function fetchWeather(lat, lon, complete) {
   xhr.send();
 }
 
-function processWeatherData(data) {
-  // Build 24-hour icon array
-  var icons = new Array(24);
-  var now = new Date();
-
-  // Find today's start index in hourly data
-  var times = data.hourly.time;
-  var codes = data.hourly.weather_code;
-  var isDays = data.hourly.is_day;
-
-  var todayStr = now.toISOString().slice(0, 10); // "YYYY-MM-DD"
-  var startIdx = 0;
+function nextDailyTime(times, locationNow) {
+  if (!Array.isArray(times) || times.length === 0) return null;
   for (var i = 0; i < times.length; i++) {
-    if (times[i].slice(0, 10) === todayStr) {
-      startIdx = i;
-      break;
+    if (typeof times[i] === 'string' && times[i] >= locationNow) return times[i];
+  }
+  return typeof times[0] === 'string' ? times[0] : null;
+}
+
+function parseLocalTime(value) {
+  if (typeof value !== 'string' || value.indexOf('T') < 0) return null;
+  var parts = value.split('T')[1].split(':');
+  var hour = parseInt(parts[0], 10);
+  var minute = parseInt(parts[1], 10);
+  return (hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59)
+    ? { hour: hour, minute: minute } : null;
+}
+
+function processWeatherData(data) {
+  data = data || {};
+  var hourly = data.hourly || {};
+  var codes = hourly.weather_code;
+  var isDays = hourly.is_day;
+  var hasHourly = Array.isArray(codes) && Array.isArray(isDays) &&
+                  codes.length >= 24 && isDays.length >= 24;
+  var icons = new Array(24);
+
+  // forecast_hours starts at the current forecast hour, not midnight. The
+  // watch maps each dial position to the next AM/PM occurrence within this
+  // rolling window, which keeps the evening and overnight dial accurate.
+  if (hasHourly) {
+    for (var h = 0; h < 24; h++) {
+      icons[h] = wmoToIcon(codes[h], isDays[h] === 1);
     }
   }
 
-  for (var h = 0; h < 24; h++) {
-    var idx = startIdx + h;
-    if (idx < codes.length) {
-      icons[h] = wmoToIcon(codes[idx], isDays[idx] === 1);
-    } else {
-      icons[h] = ICON.UNKNOWN;
-    }
-  }
-
-  // Current temperature
-  var tempC = Math.round(data.current.temperature_2m);
+  var current = data.current || {};
+  var rawTemp = Number(current.temperature_2m);
+  var tempC = Math.round(rawTemp);
   var tempF = Math.round(tempC * 9 / 5 + 32);
+  var hasTemp = isFinite(tempC);
 
-  // Validation: if temperature is missing or NaN, do not send it (let watch keep last good value)
-  var hasTemp = (typeof tempC === 'number' && !isNaN(tempC));
-
-  // Sunrise / sunset (today)
-  var sunriseStr = data.daily.sunrise[0]; // "YYYY-MM-DDTHH:MM"
-  var sunsetStr  = data.daily.sunset[0];
-  var srParts = sunriseStr.split('T')[1].split(':');
-  var ssParts = sunsetStr.split('T')[1].split(':');
-  var srHour = parseInt(srParts[0], 10);
-  var srMin  = parseInt(srParts[1], 10);
-  var ssHour = parseInt(ssParts[0], 10);
-  var ssMin  = parseInt(ssParts[1], 10);
+  // Open-Meteo returns daily values in the selected location's local time.
+  // Use the next actual solar event so an evening update does not restore a
+  // sunrise that has already passed.
+  var daily = data.daily || {};
+  var locationNow = typeof current.time === 'string' ? current.time : '';
+  var sunrise = parseLocalTime(nextDailyTime(daily.sunrise, locationNow));
+  var sunset = parseLocalTime(nextDailyTime(daily.sunset, locationNow));
 
   // Build message using NUMERIC keys only
   var msg = {};
-  for (var k = 0; k < 24; k++) {
-    msg[k] = icons[k]; // KEY_ICON_0..23 = numeric keys 0..23
+  if (hasHourly) {
+    for (var k = 0; k < 24; k++) {
+      msg[k] = icons[k]; // KEY_ICON_0..23 = numeric keys 0..23
+    }
+  } else {
+    console.log('Weather response missing a complete rolling hourly forecast; retaining last icons');
   }
   if (hasTemp) {
-    msg[KEY.TEMP_C]        = tempC;
-    msg[KEY.TEMP_F]        = tempF;
+    msg[KEY.TEMP_C] = tempC;
+    msg[KEY.TEMP_F] = tempF;
   }
-  msg[KEY.SUNRISE_HOUR]    = srHour;
-  msg[KEY.SUNRISE_MINUTE]  = srMin;
-  msg[KEY.SUNSET_HOUR]     = ssHour;
-  msg[KEY.SUNSET_MINUTE]   = ssMin;
+  if (sunrise) {
+    msg[KEY.SUNRISE_HOUR] = sunrise.hour;
+    msg[KEY.SUNRISE_MINUTE] = sunrise.minute;
+  }
+  if (sunset) {
+    msg[KEY.SUNSET_HOUR] = sunset.hour;
+    msg[KEY.SUNSET_MINUTE] = sunset.minute;
+  }
   // Send city name if we have one
   if (s_resolvedCityName !== undefined) {
     msg[KEY.CITY_NAME] = s_resolvedCityName.substring(0, 31);
@@ -625,6 +658,11 @@ function resolveLocation(callback) {
         // 4. IP fallback
         ipGeolocate(function(err2, lat, lon) {
           if (!err2) {
+            // Cache the successful IP fallback for subsequent scheduled updates
+            // in this companion session, avoiding repeated GPS timeouts.
+            s_storedLat = lat;
+            s_storedLon = lon;
+            s_useLatLon = true;
             reverseGeocode(lat, lon, function(err3, cityName) {
               if (cityName) { s_resolvedCityName = cityName; } else { s_resolvedCityName = ""; }
               callback(null, lat, lon);
@@ -640,6 +678,11 @@ function resolveLocation(callback) {
     // 4. IP fallback
     ipGeolocate(function(err2, lat, lon) {
       if (!err2) {
+        // Cache the successful IP fallback for subsequent scheduled updates in
+        // this companion session.
+        s_storedLat = lat;
+        s_storedLon = lon;
+        s_useLatLon = true;
         reverseGeocode(lat, lon, function(err3, cityName) {
           if (cityName) { s_resolvedCityName = cityName; } else { s_resolvedCityName = ""; }
           callback(null, lat, lon);
