@@ -4,6 +4,7 @@
 #include <pebble.h>
 #include "gpath_weather.h"
 #include <stdlib.h>
+#include <math.h>
 
 // Integer square root (avoids float sqrt and math.h dependency)
 static int isqrt_int(int n) {
@@ -550,6 +551,31 @@ static int32_t angle_for_hour(int hour, int minute) {
   return TRIG_MAX_ANGLE * (hour * 60 + minute) / 720;
 }
 
+static int32_t get_complication_angle_deg(int hour, int minute){
+  int32_t minute_angle = TRIGANGLE_TO_DEG(angle_for_minute(minute));
+  int32_t hour_angle = TRIGANGLE_TO_DEG(angle_for_hour(hour, minute));
+  int32_t smaller_angle = (minute_angle < hour_angle) ? minute_angle : hour_angle;
+  int32_t larger_angle = (minute_angle > hour_angle) ? minute_angle : hour_angle;
+  // find the angle halfway between the two hands
+  int32_t center_angle = (int) (larger_angle - smaller_angle) / 2.0 + smaller_angle;
+  // make sure the halfway point is in the acute angle, not obtuse one
+  if ((larger_angle - smaller_angle) > 180){
+    center_angle -= 180;
+  }
+  // complication is on the opposite side
+  int32_t comp_angle = (center_angle + 180) % 360;
+  // define list of ranges; left limit is inclusive, right is exclusive
+  int ranges[] = { 0,   45,   90,   135,  180,  225,  270,  315,  360};
+  // target angles |  ↓  |  ↓  |  ↓  |  ↓  |  ↓  |  ↓  |  ↓  |  ↓  |
+  int targets[] = {   0,   45,   135,  180,  180,  225,  315,   0    };
+  // snap the angle to target based on which range it falls into
+  for (int i = 0; i < (int)sizeof(targets); i++){
+    if (ranges[i] <= comp_angle && comp_angle < ranges[i+1]){
+      return targets[i];
+    }
+  }
+  return 0;
+}
 
 static void update_current_hand_tips(void) {
   int radius = (s_screen_w < s_screen_h ? s_screen_w : s_screen_h) / 2;
@@ -1648,8 +1674,6 @@ static void rebuild_complication_cache(void) {
   ComplicationRenderCache *cache = &s_complication_cache;
   int sw = s_screen_w;
   int cur_min = s_last_time.tm_min;
-  bool comp_at_top = (cur_min >= 20 && cur_min <= 40);
-  int comp_y = comp_at_top ? POS_Y(45) : POS_Y(105);
   bool is_emery = (sw >= 200);
   cache->font = get_complication_font();
 
@@ -1679,19 +1703,41 @@ static void rebuild_complication_cache(void) {
     }
   }
 
-  int cur_hour12 = s_last_time.tm_hour % 12;
+  // ── Moving complication to the oposite angle of watch hands ─────────────────
+  // Determine y center and offset 
+  int offset_y = (int) round((POS_Y(105) - POS_Y(45)) / 2.0);
+  int center_y = POS_Y(45) + offset_y;
+
+  // Determine x center and offset
+  int offset_x = (int) round((0.5 - 4 / 11.0) * sw);
+  int center_x = (int) round(sw / 2.0);
+  
+  // Determine the coordinate multipliers 
+  int complication_angle = get_complication_angle_deg(s_last_time.tm_hour % 12, s_last_time.tm_min);
+  int mult_x = (int) round((float)sin_lookup(DEG_TO_TRIGANGLE(complication_angle)) / TRIG_MAX_RATIO);
+  int mult_y = (int)-round((float)cos_lookup(DEG_TO_TRIGANGLE(complication_angle)) / TRIG_MAX_RATIO);
+
+  // Calculate the complication coordinates
+  int comp_cx = center_x + offset_x * mult_x;
+  int comp_y = center_y + offset_y * mult_y;
+
+
+
+  // bool comp_at_top = (cur_min >= 20 && cur_min <= 40);
+  // int comp_y = comp_at_top ? POS_Y(45) : POS_Y(105);
+  // int cur_hour12 = s_last_time.tm_hour % 12;
   int box_w = sw / 2;
-  int comp_cx = sw / 2;
+  // int comp_cx = sw / 2;
   // Corner complications sit at screen_width / 2.75 from each side.
-  const int left_comp_cx = (sw * 4) / 11;
-  const int right_comp_cx = sw - left_comp_cx;
-  if (comp_at_top) {
-    if (cur_hour12 == 10 || cur_hour12 == 11) comp_cx = right_comp_cx;
-    else if (cur_hour12 == 0 || cur_hour12 == 1) comp_cx = left_comp_cx;
-  } else {
-    if (cur_hour12 == 4 || cur_hour12 == 5) comp_cx = left_comp_cx;
-    else if (cur_hour12 == 6 || cur_hour12 == 7) comp_cx = right_comp_cx;
-  }
+  // const int left_comp_cx = (sw * 4) / 11;
+  // const int right_comp_cx = sw - left_comp_cx;
+  // if (comp_at_top) {
+  //   if (cur_hour12 == 10 || cur_hour12 == 11) comp_cx = right_comp_cx;
+  //   else if (cur_hour12 == 0 || cur_hour12 == 1) comp_cx = left_comp_cx;
+  // } else {
+  //   if (cur_hour12 == 4 || cur_hour12 == 5) comp_cx = left_comp_cx;
+  //   else if (cur_hour12 == 6 || cur_hour12 == 7) comp_cx = right_comp_cx;
+  // }
 
   int box_x = comp_cx - box_w / 2;
   cache->date_rect = GRect(box_x, comp_y - 10, box_w, 20);
@@ -1900,11 +1946,21 @@ static void hide_seconds_callback(void *data) {
 // Tick handler
 // ─────────────────────────────────────────────────────────────────────────────
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  int prev_min = s_last_time.tm_min;
+  int previous_compl_angle = get_complication_angle_deg(s_last_time.tm_hour % 12, s_last_time.tm_min);
+  // int prev_min = s_last_time.tm_min;
   int prev_mday = s_last_time.tm_mday;
   bool hour_changed = (tick_time->tm_hour != s_last_time.tm_hour);
   bool date_changed = (tick_time->tm_mday != prev_mday);
   s_last_time = *tick_time;
+  // used for testing different hand positons
+  // struct tm fake_time = { .tm_hour=6, .tm_min=19, .tm_mon=8, .tm_mday=27, .tm_year=2026};
+  // s_last_time = fake_time;
+  // invalidate_complication_cache();
+  // layer_mark_dirty(s_complication_layer);
+  // layer_mark_dirty(s_bg_layer);
+  // update_current_hand_tips();
+  // layer_mark_dirty(s_minute_layer);
+  // layer_mark_dirty(s_hour_layer);
 
   if (units_changed & SECOND_UNIT) {
     layer_mark_dirty(s_minute_layer);  // seconds drawn inside minute layer
@@ -1918,9 +1974,12 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
     if ((tick_time->tm_min % 5) == 0) layer_mark_dirty(s_hour_layer);
     // Fixed complication geometry only changes at the established top/bottom
     // boundaries, the hour-dependent corner rules, or a date rollover.
-    bool was_mid = (prev_min >= 20 && prev_min <= 40);
-    bool now_mid = (tick_time->tm_min >= 20 && tick_time->tm_min <= 40);
-    if (was_mid != now_mid || hour_changed || date_changed) {
+    // bool was_mid = (prev_min >= 20 && prev_min <= 40);
+    // bool now_mid = (tick_time->tm_min >= 20 && tick_time->tm_min <= 40);
+    // if (was_mid != now_mid || hour_changed || date_changed) {
+    // Complication layer only repositions if the angle has changed
+    int current_compl_angle = get_complication_angle_deg(s_last_time.tm_hour % 12, s_last_time.tm_min);
+    if (current_compl_angle != previous_compl_angle) {
       invalidate_complication_cache();
       layer_mark_dirty(s_complication_layer);
     }
